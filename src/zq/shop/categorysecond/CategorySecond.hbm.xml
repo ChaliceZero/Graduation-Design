@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="zq.shop.categorysecond.CategorySecond" table="categorysecond">
+		<!--  配置唯一标识 -->
+    	<id name="csid" column="csid">
+    		<generator class="native"></generator>
+    	</id>
+    	<!-- 配置普通属性 -->
+    	<property name="csname" column="csname"/>
+    	<many-to-one name="category" lazy="false" class="zq.shop.category.Category" column="cid"></many-to-one>
+ 
+ 		<!-- 配置关联集合 -->
+ 		<set name="books" lazy="false">
+ 			<!-- 关联的类的外键名称 -->
+ 			<key column="csid"></key>
+ 			<one-to-many class="zq.shop.book.Book"></one-to-many>
+ 		</set>
+	</class>
+</hibernate-mapping>

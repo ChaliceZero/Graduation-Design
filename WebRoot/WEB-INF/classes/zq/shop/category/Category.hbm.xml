@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="zq.shop.category.Category" table="category">
+		<!--  配置唯一标识 -->
+    	<id name="cid" column="cid">
+    		<generator class="native"></generator>
+    	</id>
+    	<!-- 配置普通属性 -->
+    	<property name="cname" column="cname"/>
+		<!-- 配置关联的二级分类 -->
+		<set name="categorySeconds" cascade="delete" order-by="csid" lazy="false">
+			<key column="cid"></key>
+			<one-to-many class="zq.shop.categorysecond.CategorySecond"></one-to-many>
+		</set>
+	</class>
+</hibernate-mapping>

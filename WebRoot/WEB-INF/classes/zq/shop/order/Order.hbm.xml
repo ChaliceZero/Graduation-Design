@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="zq.shop.order.Order" table="orders">
+    	<!--  配置唯一标识 -->
+    	<id name="oid" column="oid">
+    		<generator class="native"></generator>
+    	</id>
+    	<!-- 配置普通属性 -->
+    	<property name="total" column="total"/>
+    	<property name="ordertime" column="ordertime" type ="timestamp"/>
+    	<property name="state" column="state"/>
+    	<property name="phone" column="phone"/>
+    	<property name="addr" column="addr"/>
+    	<property name="name" column="name"/>
+    	<!-- 配置用户表关联，从订单表必须知道用户的信息，故必须配该配置，若想从用户表查询订单信息，则需要在用户表的配置文件中配置set和one-many -->
+    	<many-to-one name="user" class="zq.shop.user.User" column="uid" lazy="false"></many-to-one>
+    	<!-- 配置订单项表关联集合，需要从订单表查询订单项表，设置lazy使得查询order时也查询到订单项 -->
+    	<set name="orderItems" cascade="save-update" lazy="false">
+    		<key column="oid"></key>
+    		<one-to-many class="zq.shop.order.OrderItem"></one-to-many>
+    	</set>
+    </class>
+</hibernate-mapping>

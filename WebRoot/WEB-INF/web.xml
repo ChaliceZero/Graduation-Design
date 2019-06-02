@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <display-name></display-name>	
+  
+  <!-- Spring框架使用监听器,服务器启动的时候加载Spring的配置文件 -->
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <!-- 监听器默认加载WEB-INF/application.xml -->
+  <!-- 配置全局初始化参数 -->
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
+  
+  
+  <!-- Struts2使用核心过滤器 -->
+  <filter>
+  	<filter-name>struts2</filter-name>
+  	<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>struts2</filter-name>
+  	<url-pattern>/*</url-pattern>
+  	<!-- 若没有指定该标签，默认为request，对客户请求启用过滤器 -->
+  	<dispatcher>REQUEST</dispatcher>
+  	<!-- 由一个forward调用分派来的请求启用过滤器 -->
+  	<dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  
+  <welcome-file-list>
+    <welcome-file>/index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <error-page>
+	<error-code>404</error-code>
+	<location>/error.jsp</location>
+  </error-page>
+  <error-page>
+	<error-code>405</error-code>
+	<location>/error.jsp</location>
+  </error-page>
+  <error-page>
+	<error-code>500</error-code>
+	<location>/error.jsp</location>
+  </error-page>
+</web-app>

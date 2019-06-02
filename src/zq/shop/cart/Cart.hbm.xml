@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="zq.shop.cart.Cart" table="cart">
+		<id name="cartId" column="cartid">
+			<generator class="native"></generator>
+		</id>
+		<property name="total" column="total"/>
+		<property name="createtime" column="createtime"/>
+		<!-- property-ref="cart"  -->
+		<one-to-one name="user" class="zq.shop.user.User" constrained="true" lazy="false">
+			
+		</one-to-one>
+		
+		<map name="map" inverse="true" cascade="all" lazy="false"> 
+            <key column="cartid"/>
+            <index type="java.lang.Integer" column="bid"/>	<!-- key -->
+            <one-to-many class="zq.shop.cart.CartItem"/>	<!-- value -->
+        </map>
+        
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 动态方法调用，为true时可以在Action中使用通配符，默认为true  -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <constant name="struts.ui.theme" value="simple" />  
+    <constant name="struts.ui.templateDir" value="template" />  
+    <constant name="struts.ui.templateSuffix" value="ftl" />  
+<!--     <constant name="struts.devMode" value="false" /> -->
+
+    <package name="default" namespace="/" extends="struts-default">
+		<!-- 配置缺省地址 -->
+        <default-action-ref name="index" />
+<!-- 
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+        
+        <global-results>
+			<result name="msg">/WEB-INF/jsp/msg.jsp</result>
+		</global-results>
+        
+-->
+		<global-results>
+			<result name="msg">/WEB-INF/jsp/msg.jsp</result>
+			<result name="msg2">/WEB-INF/jsp/msg2.jsp</result>
+		</global-results>
+		
+		<!-- 配置首页访问的Action，把类的创建权交由spring,indexAction是bean的ID号 -->
+		<action name="index" class="indexAction">
+			<result name="indexSuccess">/WEB-INF/jsp/index.jsp</result>
+		</action>
+		<!-- 后台默认访问admin -->
+		<action name="admin" class="backAction">
+			<result name="adminSuccess" type="redirectAction">admin_adminPage.action</result>
+			<result name="logoutSuccess">/WEB-INF/admin/index.jsp</result>
+		</action>
+		
+		<!-- 配置用户的Action -->
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="registPageSuccess">/WEB-INF/jsp/register.jsp</result>
+			<result name="registSuccess">/WEB-INF/jsp/msg.jsp</result>
+			<result name="activeSuccess">/WEB-INF/jsp/msg.jsp</result>
+			<result name="activeFail">/WEB-INF/jsp/msg.jsp</result>
+			<result name="loginPageSuccess">/WEB-INF/jsp/login.jsp</result>
+			<result name="loginSuccess" type="redirectAction">index</result>
+			<result name="quitSuccess" type="redirectAction">index</result>
+			<result name="findSelfSuccess">/WEB-INF/jsp/user.jsp</result>
+			<result name="updateUserSuccess">/WEB-INF/jsp/msg.jsp</result>
+			<result name="updatePwdPageSuccess">/WEB-INF/jsp/updatePwd.jsp</result>
+			<result name="updatePwdSuccess">/WEB-INF/jsp/updatePwd.jsp</result>
+			<result name="updatePwdFail">/WEB-INF/jsp/updatePwd.jsp</result>
+			<result name="login2Fail" type="redirectAction">index</result>
+			<!-- 后台 -->
+			<result name="adminFindAllSuccess">/WEB-INF/admin/user/list.jsp</result>
+			<result name="activeUserSuccess" type="redirectAction">user_adminFindAll.action?pageNum=1</result>
+			<result name="deleteUserSuccess" type="redirectAction">user_adminFindAll.action?pageNum=1</result>
+			<result name="searchSuccess">/WEB-INF/admin/user/searchList.jsp</result>
+			
+			<!-- 校验失败时跳转到input视图 -->
+			<result name="registInput">/WEB-INF/jsp/register.jsp</result>
+			<result name="loginInput">/WEB-INF/jsp/login.jsp</result>
+		</action>
+		
+		<!-- 配置验证码程序的action -->
+		<action name="checkImg" class="checkImgAction">
+		</action>
+		<!-- 配置一级分类的action -->
+		<action name="category_*" class="categoryAction" method="{1}">
+			<result name="adminFindAllSuccess">/WEB-INF/admin/category/list.jsp</result>
+			<result name="adminSaveSuccess" type="redirectAction">category_adminFindAll.action</result>
+			<result name="adminDeleteSuccess" type="redirectAction">category_adminFindAll.action</result>
+			<result name="adminEditPage">/WEB-INF/admin/category/edit.jsp</result>
+			<result name="adminUpdateSuccess" type="redirectAction">category_adminFindAll.action</result>
+		</action>
+		<!-- 配置书籍商品的action -->
+		<action name="book_*" class="bookAction" method="{1}">
+			<result name="findByCidSuccess">/WEB-INF/jsp/bookList.jsp</result>
+			<result name="findByBidSuccess">/WEB-INF/jsp/bookDesc.jsp</result>
+			<result name="findByCsidSuccess">/WEB-INF/jsp/bookList4Cs.jsp</result>
+			<result name="adminFindAllSuccess">/WEB-INF/admin/book/list.jsp</result>
+			<result name="addBookPageSuccess">/WEB-INF/admin/book/add.jsp</result>
+			<result name="saveBookSuccess" type="redirectAction">book_adminFindAll.action?pageNum=1</result>
+			<result name="deleteBookSuccess" type="redirectAction">book_adminFindAll.action?pageNum=1</result>
+			<result name="editBookPage">/WEB-INF/admin/book/edit.jsp</result>
+			<result name="updateBookSuccess" type="redirectAction">book_adminFindAll.action?pageNum=1</result>
+			<result name="searchBookSuccess">/WEB-INF/jsp/searchBookList.jsp</result>
+			<result name="searchSuccess">/WEB-INF/admin/book/searchList.jsp</result>
+			<result name="searchFail" type="redirectAction">book_adminFindAll.action?pageNum=1</result>
+
+		</action>
+		<!-- 配置二级分类的action -->
+		<action name="categorySecond_*" class="categorySecondAction" method="{1}">
+			<result name="adminFindAllSuccess">/WEB-INF/admin/categorysecond/list.jsp</result>
+			<result name="adminAddPageSuccess">/WEB-INF/admin/categorysecond/add.jsp</result>
+			<result name="adminSaveSuccess" type="redirectAction">categorySecond_adminFindAll.action?pageNum=1</result>
+			<result name="adminDeleteSuccess" type="redirectAction">categorySecond_adminFindAll.action?pageNum=1</result>
+			<result name="adminEditPageSuccess">/WEB-INF/admin/categorysecond/edit.jsp</result>
+			<result name="adminUpdateSuccess" type="redirectAction">categorySecond_adminFindAll.action?pageNum=1</result>
+			<result name="searchFail" type="redirectAction">categorySecond_adminFindAll.action?pageNum=1</result>
+			<result name="searchSuccess">/WEB-INF/admin/categorysecond/searchList.jsp</result>
+			
+			
+			<!-- 带有名称空间的redirectAction怎么配 -->
+				<!-- <result name="" type="redirectAction">
+					<param name="actionName">XXX</param>
+					<param name="namespace">XXX</param>
+					<param name="method">XXX</param>
+				</result> -->
+		</action>
+		<!-- 配置购物车的action -->
+		<action name="cart_*" class="cartAction" method="{1}">
+			<result name="addCartSuccess">/WEB-INF/jsp/msg2.jsp</result>
+			<result name="clearCartSuccess">/WEB-INF/jsp/cart.jsp</result>
+			<result name="removeCartSuccess">/WEB-INF/jsp/cart.jsp</result>
+			<result name="myCartSuccess">/WEB-INF/jsp/cart.jsp</result>
+		</action>
+		<!-- 配置订单的action -->
+		<action name="order_*" class="orderAction" method="{1}">
+			<result name="saveOrderFail">/WEB-INF/jsp/msg.jsp</result>
+			<result name="saveOrderSuccess">/WEB-INF/jsp/order.jsp</result>
+			<result name="payOrderSuccess">/WEB-INF/jsp/msg.jsp</result>
+			<result name="payOrderFail">/WEB-INF/jsp/msg.jsp</result>
+			<result name="findOrdersByUidSuccess">/WEB-INF/jsp/orderList.jsp</result>
+			<result name="findByOidSuccess">/WEB-INF/jsp/order.jsp</result>
+			<result name="adminFindAllSuccess">/WEB-INF/admin/order/list.jsp</result>
+			<result name="adminFindByStateSuccess">/WEB-INF/admin/order/list4State.jsp</result>
+			<result name="adminUpdateStateSuccess" type="redirectAction">order_adminFindAll.action?pageNum=1</result>
+			<result name="userUpdateStateSuccess" type="redirectAction">order_findOrdersByUid.action?pageNum=1</result>
+			<result name="removeOrderSuccess" type="redirectAction">order_findOrdersByUid.action?pageNum=1</result>
+			<result name="getParams2ZfbSuccess">/alipay/index.jsp</result>
+			<result name="searchSuccess">/WEB-INF/admin/order/searchList.jsp</result>
+			<result name="searchFail" type="redirectAction">order_adminFindAll.action?pageNum=1</result>
+		</action>
+		<!-- 配置支付宝的action -->
+		<action name="returnUrl" class="returnAction">
+			<!-- 若无法跳转，则改为重定向 -->
+			<!-- <result name="returnSuccess" type="redirectAction">user_login2.action?uid=${uid}</result> -->
+		</action>
+		
+		<!-- 配置管理员action -->
+		<action name="admin_*" class="adminAction" method="{1}">
+			<!-- 实时方法 -->
+			<result name="loginSuccess">/WEB-INF/admin/home.jsp</result>		
+			<result name="logoutSuccess" type="redirectAction">admin</result>
+			<result name="adminFindAllSuccess">/WEB-INF/admin/admins/list.jsp</result>
+			<result name="adminAddPageSeccess">/WEB-INF/admin/admins/add.jsp</result>		
+			<result name="adminDeleteSuccess" type="redirectAction">admin_adminFindAll.action</result>		
+			<result name="adminSaveSuccess" type="redirectAction">admin_adminFindAll.action</result>		
+			<!-- 页面跳转方法 -->
+			<result name="categoryAddPage">/WEB-INF/admin/category/add.jsp</result>
+			<result name="categoryEditPage">/WEB-INF/admin/category/edit.jsp</result>
+			<result name="categorySecondAddPage">/WEB-INF/admin/categorysecond/add.jsp</result>
+			<result name="bookAddPage">/WEB-INF/admin/book/add.jsp</result>
+			<result name="adminPageSuccess">/WEB-INF/admin/index.jsp</result>
+			<result name="topFrameSuccess">/WEB-INF/admin/top.jsp</result>
+			<result name="welcomeFrameSuccess">/WEB-INF/admin/welcome.jsp</result>
+			<result name="leftFrameSuccess">/WEB-INF/admin/left.jsp</result>
+			<result name="bottomFrameSuccess">/WEB-INF/admin/bottom.jsp</result>
+			<!-- input视图 -->
+			<result name="loginInput">/WEB-INF/admin/index.jsp</result>
+		</action>
+    </package>
+
+</struts>

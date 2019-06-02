@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="zq.shop.order.OrderItem" table="orderitem">
+    	<!--  配置唯一标识 -->
+    	<id name="itemid" column="itemid">
+    		<generator class="native"></generator>
+    	</id>
+    	<!-- 配置普通属性 -->
+    	<property name="count" column="count"/>
+    	<property name="subtotal" column="subtotal"/>
+    	
+    	<!-- 配置订单项所属订单关联，在查询关联对象时设置lazy为false -->
+    	<many-to-one name="order" class="zq.shop.order.Order" column="oid"></many-to-one>
+    	<!-- 配置书籍表关联 -->
+    	<many-to-one name="book" class="zq.shop.book.Book" column="bid" lazy="false"></many-to-one>
+    </class>
+</hibernate-mapping>
